@@ -15,8 +15,8 @@ audio_queue = Queue()
 def recognize_worker():
     # this runs in a background thread
     while True:
-        audio = audio_queue.get()  # retrieve the next audio processing job from the main thread
-        if audio is None: break  # stop processing if the main thread is done
+# retrieve the next audio processing job from the main thread
+        if (audio := audio_queue.get()) is None: break  # stop processing if the main thread is done
 
         # received audio data, now we'll recognize it using Google Speech Recognition
         try:

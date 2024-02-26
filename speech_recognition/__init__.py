@@ -666,8 +666,7 @@ class Recognizer(AudioSource):
         if show_all: return decoder
 
         # return results
-        hypothesis = decoder.hyp()
-        if hypothesis is not None: return hypothesis.hypstr
+        if (hypothesis := decoder.hyp()) is not None: return hypothesis.hypstr
         raise UnknownValueError()  # no transcriptions available
 
     def recognize_google_cloud(self, audio_data, credentials_json=None, language="en-US", preferred_phrases=None, show_all=False):
@@ -1237,8 +1236,7 @@ class Recognizer(AudioSource):
                         break
                     yield data
 
-        check_existing = audio_data is None and job_name
-        if check_existing:
+        if check_existing := audio_data is None and job_name:
             # Query status.
             transciption_id = job_name
             endpoint = f"https://api.assemblyai.com/v2/transcript/{transciption_id}"
@@ -1247,9 +1245,8 @@ class Recognizer(AudioSource):
             }
             response = requests.get(endpoint, headers=headers)
             data = response.json()
-            status = data['status']
 
-            if status == 'error':
+            if (status := data['status']) == 'error':
                 # Handle error.
                 exc = TranscriptionFailed()
                 exc.job_name = None

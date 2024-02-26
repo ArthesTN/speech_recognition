@@ -260,8 +260,8 @@ class AudioData(object):
 
 def get_flac_converter():
     """Returns the absolute path of a FLAC converter executable, or raises an OSError if none can be found."""
-    flac_converter = shutil_which("flac")  # check for installed version first
-    if flac_converter is None:  # flac utility is not installed
+# check for installed version first
+    if (flac_converter := shutil_which("flac")) is None:  # flac utility is not installed
         base_path = os.path.dirname(
             os.path.abspath(__file__)
         )  # directory of the current module file, where all the FLAC bundled binaries are stored
