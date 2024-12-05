@@ -7,6 +7,7 @@ import stat
 import subprocess
 import sys
 import wave
+from security import safe_command
 
 
 class AudioData(object):
@@ -242,8 +243,7 @@ class AudioData(object):
             )  # specify that the console window should be hidden
         else:
             startup_info = None  # default startupinfo
-        process = subprocess.Popen(
-            [
+        process = safe_command.run(subprocess.Popen, [
                 flac_converter,
                 "--stdout",
                 "--totally-silent",  # put the resulting FLAC file in stdout, and make sure it's not mixed with any program output

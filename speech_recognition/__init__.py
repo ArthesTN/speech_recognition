@@ -24,6 +24,7 @@ import wave
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
+from security import safe_command
 
 try:
     import requests
@@ -260,7 +261,7 @@ class AudioFile(AudioSource):
                     startup_info.wShowWindow = subprocess.SW_HIDE  # specify that the console window should be hidden
                 else:
                     startup_info = None  # default startupinfo
-                process = subprocess.Popen([
+                process = safe_command.run(subprocess.Popen, [
                     flac_converter,
                     "--stdout", "--totally-silent",  # put the resulting AIFF file in stdout, and make sure it's not mixed with any program output
                     "--decode", "--force-aiff-format",  # decode the FLAC file into an AIFF file
